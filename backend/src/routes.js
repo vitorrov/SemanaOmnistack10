@@ -1,19 +1,14 @@
 //Todas as rotas aqui
 const { Router } = require('express'); //Modulo de roteamento
-const axios = require('axios');
+const DevController = require('./controllers/DevController');
+const SearchController = require('./controllers/SearchController');
 
 const routes = Router();
 
-routes.post('/devs', async (req, res) => {
-    const { github_username } = req.body;
 
-    const apiResponse = await axios.get(`https://api.github.com/users/${github_username}`);
+routes.get('/devs', DevController.index);
+routes.post('/devs', DevController.store);
 
-    const { name = login, avatar_url, bio } = apiResponse.data;
-
-    console.log(name, avatar_url, bio, github_username);    
-
-    return res.json({ message: 'Hello World!' });
-});
+routes.get('/search', SearchController.index);
 
 module.exports = routes;
